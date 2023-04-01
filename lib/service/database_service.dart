@@ -133,4 +133,7 @@ class DatabaseService {
       "recentMessageTime": chatMessageData['time'].toString(),
     });
   }
+
+  // send image
+
 }
