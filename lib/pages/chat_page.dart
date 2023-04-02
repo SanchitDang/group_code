@@ -2,7 +2,9 @@ import 'dart:io';
 
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
+import 'package:group_code/pages/code_editor_screen.dart';
 import 'package:group_code/pages/group_info.dart';
+import 'package:group_code/pages/webview.dart';
 import 'package:group_code/service/database_service.dart';
 import 'package:group_code/widgets/message_tile.dart';
 import 'package:group_code/widgets/widgets.dart';
@@ -130,9 +132,14 @@ class _ChatPageState extends State<ChatPage> {
               leading: const Icon(Icons.code),
               title: const Text('Code EDITOR'),
               onTap: () {
-                // _pickImage(ImageSource.gallery, 'profile');
-                sendCode();
-                // Navigator.pop(context);
+                Navigator.push(context, MaterialPageRoute(builder: (context) => HomePage()));
+              },
+            ),
+            ListTile(
+              leading: const Icon(Icons.code),
+              title: const Text('HTML/CSS EDITOR'),
+              onTap: () {
+                Navigator.push(context, MaterialPageRoute(builder: (context) => WEBVIEWSCREEN()));
               },
             ),
           ],

@@ -1,3 +1,4 @@
+import 'package:group_code/pages/auth/group_editor.dart';
 import 'package:group_code/pages/home_page.dart';
 import 'package:group_code/service/database_service.dart';
 import 'package:group_code/widgets/widgets.dart';
@@ -137,6 +138,40 @@ class _GroupInfoState extends State<GroupInfo> {
                     ],
                   )
                 ],
+              ),
+            ),
+            GestureDetector(
+              onTap: () {
+                Navigator.push(context, MaterialPageRoute(builder: (context) => GroupEditorScreen()));
+              },
+              child: Container(
+                padding: const EdgeInsets.all(20),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
+                    CircleAvatar(
+                      radius: 30,
+                      backgroundColor: Theme.of(context).primaryColor,
+                      child: const Text(
+                        "G",
+                        style: TextStyle(
+                            fontWeight: FontWeight.w500, color: Colors.white),
+                      ),
+                    ),
+                    const SizedBox(
+                      width: 20,
+                    ),
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: const [
+                        Text(
+                          "Group Editor",
+                          style: TextStyle(fontWeight: FontWeight.w500),
+                        ),
+                      ],
+                    )
+                  ],
+                ),
               ),
             ),
             memberList(),
