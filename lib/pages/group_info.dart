@@ -147,31 +147,28 @@ class _GroupInfoState extends State<GroupInfo> {
               child: Container(
                 padding: const EdgeInsets.all(20),
                 child: Row(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  children: [
-                    CircleAvatar(
-                      radius: 30,
-                      backgroundColor: Theme.of(context).primaryColor,
-                      child: const Text(
-                        "G",
-                        style: TextStyle(
-                            fontWeight: FontWeight.w500, color: Colors.white),
-                      ),
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: const [
+                    Text(
+                      "Group Code Editor",
+                      style: TextStyle(fontWeight: FontWeight.w500),
                     ),
-                    const SizedBox(
-                      width: 20,
-                    ),
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: const [
-                        Text(
-                          "Group Editor",
-                          style: TextStyle(fontWeight: FontWeight.w500),
-                        ),
-                      ],
-                    )
+                    Icon(Icons.edit)
                   ],
                 ),
+              ),
+            ),
+
+            Container(
+              padding: const EdgeInsets.all(20),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: const [
+                  Text(
+                    "Group Members",
+                    style: TextStyle(fontWeight: FontWeight.w500, fontSize: 20),
+                  ),
+                ],
               ),
             ),
             memberList(),

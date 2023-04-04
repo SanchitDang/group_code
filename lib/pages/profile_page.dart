@@ -121,8 +121,8 @@ class _ProfilePageState extends State<ProfilePage> {
           )
         ],
       )),
-      body: Container(
-        padding: const EdgeInsets.symmetric(horizontal: 40, vertical: 170),
+      body: Padding(
+        padding: const EdgeInsets.all(10.0),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
@@ -149,6 +149,36 @@ class _ProfilePageState extends State<ProfilePage> {
               children: [
                 const Text("Email", style: TextStyle(fontSize: 17)),
                 Text(widget.email, style: const TextStyle(fontSize: 17)),
+              ],
+            ),
+            const Divider(
+              height: 20,
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: const [
+                Text("Skills", style: TextStyle(fontSize: 17)),
+                Text("My skills", style: const TextStyle(fontSize: 17)),
+              ],
+            ),
+            const Divider(
+              height: 20,
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: const [
+                Text("Community Stars", style: TextStyle(fontSize: 17)),
+                Text("4.6/5", style: TextStyle(fontSize: 17)),
+              ],
+            ),
+            const Divider(
+              height: 20,
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: const [
+                Text("Reward Points", style: TextStyle(fontSize: 17)),
+                Text("69", style: TextStyle(fontSize: 17)), //contributing code, providing feedback, and helping others.
               ],
             ),
           ],

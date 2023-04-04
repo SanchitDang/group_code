@@ -1,10 +1,8 @@
 import 'dart:io';
 
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:group_code/pages/code_editor_screen.dart';
 import 'package:group_code/pages/group_info.dart';
-import 'package:group_code/pages/webview.dart';
 import 'package:group_code/service/database_service.dart';
 import 'package:group_code/widgets/message_tile.dart';
 import 'package:group_code/widgets/widgets.dart';
@@ -12,8 +10,8 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:uuid/uuid.dart';
-import 'package:flutter_highlight/flutter_highlight.dart';
-import 'package:flutter_highlight/theme_map.dart';
+import '../widgets/code_tile.dart';
+import '../widgets/image_tile.dart';
 
 class ChatPage extends StatefulWidget {
   final String groupId;
@@ -91,7 +89,6 @@ class _ChatPageState extends State<ChatPage> {
           .collection('messages')
           .doc(fileName)
           .update({"message": imageUrl});
-
     }
   }
 
@@ -103,14 +100,6 @@ class _ChatPageState extends State<ChatPage> {
           mainAxisSize: MainAxisSize.min,
           children: <Widget>[
             ListTile(
-              leading: const Icon(Icons.camera_alt),
-              title: const Text('Take a photo'),
-              onTap: () {
-                //captureImage('profile');
-                Navigator.pop(context);
-              },
-            ),
-            ListTile(
               leading: const Icon(Icons.photo_library),
               title: const Text('Choose from gallery'),
               onTap: () {
@@ -121,7 +110,7 @@ class _ChatPageState extends State<ChatPage> {
             ),
             ListTile(
               leading: const Icon(Icons.code),
-              title: const Text('Add code'),
+              title: const Text('Send as code'),
               onTap: () {
                 // _pickImage(ImageSource.gallery, 'profile');
                 sendCode();
@@ -132,14 +121,8 @@ class _ChatPageState extends State<ChatPage> {
               leading: const Icon(Icons.code),
               title: const Text('Code EDITOR'),
               onTap: () {
-                Navigator.push(context, MaterialPageRoute(builder: (context) => HomePage()));
-              },
-            ),
-            ListTile(
-              leading: const Icon(Icons.code),
-              title: const Text('HTML/CSS EDITOR'),
-              onTap: () {
-                Navigator.push(context, MaterialPageRoute(builder: (context) => WEBVIEWSCREEN()));
+                Navigator.push(context,
+                    MaterialPageRoute(builder: (context) => const HomePage()));
               },
             ),
           ],
@@ -147,8 +130,6 @@ class _ChatPageState extends State<ChatPage> {
       },
     );
   }
-
-
 
   @override
   void initState() {
@@ -201,24 +182,28 @@ class _ChatPageState extends State<ChatPage> {
             alignment: Alignment.bottomCenter,
             width: MediaQuery.of(context).size.width,
             child: Container(
-              padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 18),
+              padding: const EdgeInsets.symmetric(horizontal: 10),
               width: MediaQuery.of(context).size.width,
-              height: 80,
-              color: Colors.grey[700],
+              height: 70,
+              color: Color.fromRGBO(255, 255, 255, 1),
               child: Row(children: [
-                IconButton(
-                    icon: const Icon(Icons.edit),
-                    onPressed: () {
-                      //captureImage('profile');
-                      _showOptions(context);
-                    }),
+                SizedBox(
+                  width:50,
+                  height:50,
+                  child: IconButton(
+                      icon: Icon(Icons.add, color: Theme.of(context).primaryColor),
+                      onPressed: () {
+                        _showOptions(context);
+                      }),
+                ),
+                const SizedBox(width: 10,),
                 Expanded(
                     child: TextFormField(
                   controller: messageController,
-                  style: const TextStyle(color: Colors.white),
+                  style: const TextStyle(color: Colors.black),
                   decoration: const InputDecoration(
                     hintText: "Send a message...",
-                    hintStyle: TextStyle(color: Colors.white, fontSize: 16),
+                    hintStyle: TextStyle(color: Colors.black, fontSize: 16),
                     border: InputBorder.none,
                   ),
                 )),
@@ -230,7 +215,7 @@ class _ChatPageState extends State<ChatPage> {
                     sendMessage();
                   },
                   child: Container(
-                    height: 50,
+                    height: 40,
                     width: 50,
                     decoration: BoxDecoration(
                       color: Theme.of(context).primaryColor,
@@ -252,60 +237,46 @@ class _ChatPageState extends State<ChatPage> {
   }
 
   chatMessages() {
-    return StreamBuilder(
-      stream: chats,
-      builder: (context, AsyncSnapshot snapshot) {
-        return snapshot.hasData
-            ? ListView.builder(
-                itemCount: snapshot.data.docs.length,
-                itemBuilder: (context, index) {
-                  if (snapshot.data.docs[index]['type'] == 'text') {
-                    return MessageTile(
-                        message: snapshot.data.docs[index]['message'],
-                        sender: snapshot.data.docs[index]['sender'],
-                        sentByMe: widget.userName ==
-                            snapshot.data.docs[index]['sender']);
-                  } else if (snapshot.data.docs[index]['type'] == 'img') {
-                    return InkWell(
-                      onTap: () => Navigator.of(context).push(MaterialPageRoute(builder: (context)=>ShowImage(imgUrl: snapshot.data.docs[index]['message']))),
-                      child:
-                      Container(
-                        height: 100,
-                        width: 100,
-                        alignment:
-                            widget.userName == snapshot.data.docs[index]['sender']
-                                ? Alignment.centerRight
-                                : Alignment.centerLeft,
-                        child: Container(
-                            height: 100,
-                            width: 100,
-                            alignment: Alignment.center,
-                            child: snapshot.data.docs[index]['message'] != ""
-                                ? Image.network(
-                                    snapshot.data.docs[index]['message'])
-                                : const CircularProgressIndicator(color: Colors.grey,)),
-                      ),
-                    );
-
-                  }
-                  else if (snapshot.data.docs[index]['type'] == 'code') {
-                    return Container(
-                      alignment:
-                      widget.userName == snapshot.data.docs[index]['sender']
-                          ? Alignment.centerRight
-                          : Alignment.centerLeft,
-                      child: snapshot.data.docs[index]['message'] != ""
-                          ?  HighlightView(
-                        snapshot.data.docs[index]['message'],
-                        language: 'python', // Enable automatic language detection
-                      )
-                          : const CircularProgressIndicator(color: Colors.grey,),
-                    );
-                  }
-                },
-              )
-            : Container();
-      },
+    return Padding(
+      padding: const EdgeInsets.fromLTRB(0, 0, 0, 72),
+      child: StreamBuilder(
+        stream: chats,
+        builder: (context, AsyncSnapshot snapshot) {
+          return snapshot.hasData
+              ? ListView.builder(
+                  itemCount: snapshot.data.docs.length,
+                  itemBuilder: (context, index) {
+                    if (snapshot.data.docs[index]['type'] == 'text') {
+                      return MessageTile(
+                          message: snapshot.data.docs[index]['message'],
+                          sender: snapshot.data.docs[index]['sender'],
+                          sentByMe: widget.userName ==
+                              snapshot.data.docs[index]['sender']);
+                    } else if (snapshot.data.docs[index]['type'] == 'img') {
+                      return InkWell(
+                        onTap: () => Navigator.of(context).push(
+                            MaterialPageRoute(
+                                builder: (context) => ShowImage(
+                                    imgUrl: snapshot.data.docs[index]
+                                        ['message']))),
+                        child: ImageTile(
+                            message: snapshot.data.docs[index]['message'],
+                            sender: snapshot.data.docs[index]['sender'],
+                            sentByMe: widget.userName ==
+                                snapshot.data.docs[index]['sender']),
+                      );
+                    } else if (snapshot.data.docs[index]['type'] == 'code') {
+                      return CodeTile(
+                          message: snapshot.data.docs[index]['message'],
+                          sender: snapshot.data.docs[index]['sender'],
+                          sentByMe: widget.userName ==
+                              snapshot.data.docs[index]['sender']);
+                    }
+                  },
+                )
+              : Container();
+        },
+      ),
     );
   }
 
@@ -335,15 +306,17 @@ class _ChatPageState extends State<ChatPage> {
       };
 
       final CollectionReference groupCollection =
-      FirebaseFirestore.instance.collection("groups");
+          FirebaseFirestore.instance.collection("groups");
 
-      groupCollection.doc(widget.groupId).collection("messages").add(chatMessageMap);
+      groupCollection
+          .doc(widget.groupId)
+          .collection("messages")
+          .add(chatMessageMap);
       groupCollection.doc(widget.groupId).update({
         "recentMessage": chatMessageMap['message'],
         "recentMessageSender": chatMessageMap['sender'],
         "recentMessageTime": chatMessageMap['time'].toString(),
       });
-
 
       setState(() {
         messageController.clear();
@@ -352,22 +325,19 @@ class _ChatPageState extends State<ChatPage> {
   }
 }
 
-
 class ShowImage extends StatelessWidget {
   const ShowImage({required this.imgUrl, Key? key}) : super(key: key);
-
   final String imgUrl;
-
   @override
   Widget build(BuildContext context) {
     final Size size = MediaQuery.of(context).size;
-
     return Scaffold(
       body: Container(
         height: size.height,
         width: size.width,
         color: Colors.black,
         child: Image.network(imgUrl),
-      ),    );
+      ),
+    );
   }
 }

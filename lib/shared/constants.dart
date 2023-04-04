@@ -8,5 +8,5 @@ class Constants {
   static String authDomain = "groupcode-2743b.firebaseapp.com";
   static String storageBucket = "groupcode-2743b.appspot.com";
   static String measurementId = "G-Q348JKDGTC";
-  final primaryColor = const Color(0xFFee7b64);
+  final primaryColor = const Color.fromRGBO(122,132,254, 1);
 }

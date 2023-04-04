@@ -1,22 +1,24 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_highlight/flutter_highlight.dart';
+import 'package:flutter_highlight/theme_map.dart';
 
-class MessageTile extends StatefulWidget {
+class CodeTile extends StatefulWidget {
   final String message;
   final String sender;
   final bool sentByMe;
 
-  const MessageTile(
+  const CodeTile(
       {Key? key,
-      required this.message,
-      required this.sender,
-      required this.sentByMe})
+        required this.message,
+        required this.sender,
+        required this.sentByMe})
       : super(key: key);
 
   @override
-  State<MessageTile> createState() => _MessageTileState();
+  State<CodeTile> createState() => _CodeTileState();
 }
 
-class _MessageTileState extends State<MessageTile> {
+class _CodeTileState extends State<CodeTile> {
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -31,19 +33,19 @@ class _MessageTileState extends State<MessageTile> {
             ? const EdgeInsets.only(left: 30)
             : const EdgeInsets.only(right: 30),
         padding:
-            const EdgeInsets.only(top: 17, bottom: 17, left: 20, right: 20),
+        const EdgeInsets.only(top: 17, bottom: 17, left: 20, right: 20),
         decoration: BoxDecoration(
             borderRadius: widget.sentByMe
                 ? const BorderRadius.only(
-                    topLeft: Radius.circular(20),
-                    topRight: Radius.circular(20),
-                    bottomLeft: Radius.circular(20),
-                  )
+              topLeft: Radius.circular(20),
+              topRight: Radius.circular(20),
+              bottomLeft: Radius.circular(20),
+            )
                 : const BorderRadius.only(
-                    topLeft: Radius.circular(20),
-                    topRight: Radius.circular(20),
-                    bottomRight: Radius.circular(20),
-                  ),
+              topLeft: Radius.circular(20),
+              topRight: Radius.circular(20),
+              bottomRight: Radius.circular(20),
+            ),
             color: widget.sentByMe
                 ? Theme.of(context).primaryColor
                 : Colors.grey[300]),
@@ -53,22 +55,26 @@ class _MessageTileState extends State<MessageTile> {
             Text(
               widget.sender.toUpperCase(),
               textAlign: TextAlign.start,
-              style:  TextStyle(
+              style: TextStyle(
                   fontSize: 13,
                   fontWeight: FontWeight.bold,
-                color: widget.sentByMe
-                    ? Colors.white
-                    :  Colors.black,
+                  color: widget.sentByMe
+                      ? Theme.of(context).primaryColor
+                      : Colors.grey[300],
                   letterSpacing: -0.5),
             ),
             const SizedBox(
               height: 8,
             ),
-            Text(widget.message,
-                textAlign: TextAlign.start,
-                style: TextStyle(fontSize: 16, color: widget.sentByMe
-                    ? Colors.white
-                    :  Colors.black,) )
+            Container(
+              child: widget.message != ""
+                  ? HighlightView(
+                    widget.message,
+                theme: themeMap['monokai-sublime']!,
+                    language: 'python', // Enable automatic language detection
+                  )
+                  : const Center(child: CircularProgressIndicator(color: Colors.grey,)),
+            ),
           ],
         ),
       ),
