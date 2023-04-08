@@ -33,7 +33,7 @@ class _LoginPageState extends State<LoginPage> {
           : SingleChildScrollView(
               child: Padding(
                 padding:
-                    const EdgeInsets.symmetric(horizontal: 20, vertical: 80),
+                    const EdgeInsets.symmetric(horizontal: 20, vertical: 50),
                 child: Form(
                     key: formKey,
                     child: Column(
@@ -41,12 +41,12 @@ class _LoginPageState extends State<LoginPage> {
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: <Widget>[
                         const Text(
-                          "Groupie",
+                          "GroupCode",
                           style: TextStyle(
                               fontSize: 40, fontWeight: FontWeight.bold),
                         ),
-                        const SizedBox(height: 10),
-                        const Text("Login now to see what they are talking!",
+                        const SizedBox(height: 2),
+                        const Text("Collaborate on code seamlessly with GroupCode!",
                             style: TextStyle(
                                 fontSize: 15, fontWeight: FontWeight.w400)),
                         Image.asset("assets/login.png"),
@@ -72,7 +72,7 @@ class _LoginPageState extends State<LoginPage> {
                                 : "Please enter a valid email";
                           },
                         ),
-                        const SizedBox(height: 15),
+                        const SizedBox(height: 8),
                         TextFormField(
                           obscureText: true,
                           decoration: textInputDecoration.copyWith(
@@ -119,7 +119,7 @@ class _LoginPageState extends State<LoginPage> {
                           height: 10,
                         ),
                         Text.rich(TextSpan(
-                          text: "Don't have an account? ",
+                          text: "New on GroupCode? ",
                           style: const TextStyle(
                               color: Colors.black, fontSize: 14),
                           children: <TextSpan>[

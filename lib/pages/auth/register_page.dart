@@ -30,7 +30,7 @@ class _RegisterPageState extends State<RegisterPage> {
           : SingleChildScrollView(
               child: Padding(
                 padding:
-                    const EdgeInsets.symmetric(horizontal: 20, vertical: 80),
+                    const EdgeInsets.symmetric(horizontal: 20, vertical: 30),
                 child: Form(
                     key: formKey,
                     child: Column(
@@ -38,13 +38,13 @@ class _RegisterPageState extends State<RegisterPage> {
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: <Widget>[
                         const Text(
-                          "Groupie",
+                          "GroupCode",
                           style: TextStyle(
                               fontSize: 40, fontWeight: FontWeight.bold),
                         ),
-                        const SizedBox(height: 10),
+                        const SizedBox(height: 2),
                         const Text(
-                            "Create your account now to chat and explore",
+                            "Collaborate on code seamlessly with GroupCode!",
                             style: TextStyle(
                                 fontSize: 15, fontWeight: FontWeight.w400)),
                         Image.asset("assets/register.png"),
@@ -69,7 +69,7 @@ class _RegisterPageState extends State<RegisterPage> {
                           },
                         ),
                         const SizedBox(
-                          height: 15,
+                          height: 8,
                         ),
                         TextFormField(
                           decoration: textInputDecoration.copyWith(
@@ -93,7 +93,7 @@ class _RegisterPageState extends State<RegisterPage> {
                                 : "Please enter a valid email";
                           },
                         ),
-                        const SizedBox(height: 15),
+                        const SizedBox(height: 8),
                         TextFormField(
                           obscureText: true,
                           decoration: textInputDecoration.copyWith(
@@ -140,7 +140,7 @@ class _RegisterPageState extends State<RegisterPage> {
                           height: 10,
                         ),
                         Text.rich(TextSpan(
-                          text: "Already have an account? ",
+                          text: "Already on GroupCode? ",
                           style: const TextStyle(
                               color: Colors.black, fontSize: 14),
                           children: <TextSpan>[
