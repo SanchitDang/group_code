@@ -1,6 +1,5 @@
 import 'package:group_code/helper/helper_function.dart';
 import 'package:group_code/pages/auth/login_page.dart';
-import 'package:group_code/pages/profile_page.dart';
 import 'package:group_code/pages/search_page.dart';
 import 'package:group_code/service/auth_service.dart';
 import 'package:group_code/service/database_service.dart';
@@ -8,6 +7,8 @@ import 'package:group_code/widgets/group_tile.dart';
 import 'package:group_code/widgets/widgets.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+
+import 'account/edit_profile_screen.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -19,8 +20,12 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   String userName = "";
   String email = "";
+  String imgUrl = "";
+
   AuthService authService = AuthService();
+
   Stream? groups;
+
   bool _isLoading = false;
   String groupName = "";
 
@@ -48,6 +53,11 @@ class _HomePageState extends State<HomePage> {
     await HelperFunctions.getUserNameFromSF().then((val) {
       setState(() {
         userName = val!;
+      });
+    });
+    await HelperFunctions.getUserProfilePicFromSF().then((val) {
+      setState(() {
+        imgUrl = val!;
       });
     });
     // getting the list of snapshots in our stream
@@ -86,12 +96,12 @@ class _HomePageState extends State<HomePage> {
           child: ListView(
         padding: const EdgeInsets.symmetric(vertical: 50),
         children: <Widget>[
-          Icon(
-            Icons.account_circle,
-            size: 150,
-            color: Colors.grey[700],
+            CircleAvatar(
+            radius: 70,
+            backgroundImage: NetworkImage(imgUrl),
           ),
-          const SizedBox(
+
+        const SizedBox(
             height: 15,
           ),
           Text(
@@ -121,10 +131,11 @@ class _HomePageState extends State<HomePage> {
             onTap: () {
               nextScreenReplace(
                   context,
-                  ProfilePage(
-                    userName: userName,
-                    email: email,
-                  ));
+                  EditProfileScreen());
+                  // ProfilePage(
+                  //   userName: userName,
+                  //   email: email,
+                  // ));
             },
             contentPadding:
                 const EdgeInsets.symmetric(horizontal: 20, vertical: 5),

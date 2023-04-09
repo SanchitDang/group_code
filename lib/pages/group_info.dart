@@ -1,4 +1,4 @@
-import 'package:group_code/pages/auth/group_editor.dart';
+import 'package:group_code/pages/group_editor.dart';
 import 'package:group_code/pages/home_page.dart';
 import 'package:group_code/service/database_service.dart';
 import 'package:group_code/widgets/widgets.dart';
@@ -104,10 +104,11 @@ class _GroupInfoState extends State<GroupInfo> {
         padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
         child: Column(
           children: [
+            //ADMIN CARD
             Container(
-              padding: const EdgeInsets.all(20),
+              padding: const EdgeInsets.all(10),
               decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(30),
+                  borderRadius: BorderRadius.circular(12),
                   color: Theme.of(context).primaryColor.withOpacity(0.2)),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.start,
@@ -140,12 +141,14 @@ class _GroupInfoState extends State<GroupInfo> {
                 ],
               ),
             ),
+
+            //GROUP EDITOR BOX
             GestureDetector(
               onTap: () {
-                Navigator.push(context, MaterialPageRoute(builder: (context) => GroupEditorScreen()));
+                Navigator.push(context, MaterialPageRoute(builder: (context) => const GroupEditorScreen()));
               },
               child: Container(
-                padding: const EdgeInsets.all(20),
+                padding: const EdgeInsets.fromLTRB(10, 16, 10, 14),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: const [
@@ -159,8 +162,9 @@ class _GroupInfoState extends State<GroupInfo> {
               ),
             ),
 
+            //GROUP MEMBERS TITLE
             Container(
-              padding: const EdgeInsets.all(20),
+              padding: const EdgeInsets.fromLTRB(10, 10, 10, 12),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: const [
@@ -171,7 +175,9 @@ class _GroupInfoState extends State<GroupInfo> {
                 ],
               ),
             ),
-            memberList(),
+
+            //GROUP MEMBERS
+            memberList(),   // Stream Builder
           ],
         ),
       ),
@@ -189,26 +195,23 @@ class _GroupInfoState extends State<GroupInfo> {
                 itemCount: snapshot.data['members'].length,
                 shrinkWrap: true,
                 itemBuilder: (context, index) {
-                  return Container(
-                    padding:
-                        const EdgeInsets.symmetric(horizontal: 5, vertical: 10),
-                    child: ListTile(
-                      leading: CircleAvatar(
-                        radius: 30,
-                        backgroundColor: Theme.of(context).primaryColor,
-                        child: Text(
-                          getName(snapshot.data['members'][index])
-                              .substring(0, 1)
-                              .toUpperCase(),
-                          style: const TextStyle(
-                              color: Colors.white,
-                              fontSize: 15,
-                              fontWeight: FontWeight.bold),
-                        ),
+                  return ListTile(
+                    leading: CircleAvatar(
+                      radius: 30,
+                      backgroundColor: Theme.of(context).primaryColor,
+                      child: Text(
+                        getName(snapshot.data['members'][index])
+                            .substring(0, 1)
+                            .toUpperCase(),
+                        style: const TextStyle(
+                            color: Colors.white,
+                            fontSize: 15,
+                            fontWeight: FontWeight.bold),
                       ),
-                      title: Text(getName(snapshot.data['members'][index])),
-                      subtitle: Text(getId(snapshot.data['members'][index])),
                     ),
+                    title: Text(getName(snapshot.data['members'][index])),
+                    //subtitle: Text(getId(snapshot.data['members'][index])),
+                    subtitle: const Text("Hey there, I'm using GroupCode!"),
                   );
                 },
               );

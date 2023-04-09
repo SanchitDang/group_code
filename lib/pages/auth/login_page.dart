@@ -156,6 +156,7 @@ class _LoginPageState extends State<LoginPage> {
           // saving the values to our shared preferences
           await HelperFunctions.saveUserLoggedInStatus(true);
           await HelperFunctions.saveUserEmailSF(email);
+          await HelperFunctions.saveUserProfilePicSF(snapshot.docs[0]['profilePic']);
           await HelperFunctions.saveUserNameSF(snapshot.docs[0]['fullName']);
           nextScreenReplace(context, const HomePage());
         } else {
