@@ -21,7 +21,7 @@ Sign Up
 \
 Login
 \
-<img src="https://raw.githubusercontent.com/SanchitDang/group_code/master/WorkingDemo/login.png" width="200" height="400" />
+<img src="https://raw.githubusercontent.com/SanchitDang/group_code/master/WorkingDemo/logIn.png" width="200" height="400" />
 \
 DashBoard
 \
@@ -33,11 +33,11 @@ Profile Section
 \
 Code Editor
 \
-<img src="https://raw.githubusercontent.com/SanchitDang/group_code/tree/master/WorkingDemo/codeEditor.png" width="200" height="400" />
+<img src="https://raw.githubusercontent.com/SanchitDang/group_code/master/WorkingDemo/codeEditor.png" width="200" height="400" />
 \
 Groups
 \
-<img src="https://raw.githubusercontent.com/SanchitDang/group_code/master/WorkingDemo/Question.png" width="200" height="400" />
+<img src="https://raw.githubusercontent.com/SanchitDang/group_code/master/WorkingDemo/homeGroups.png" width="200" height="400" />
 \
 Group Info
 \
