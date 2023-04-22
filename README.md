@@ -17,19 +17,19 @@ The app allows users to create and join groups, share code snippets, and chat wi
 ## Screenshots
 Sign Up
 \
-<img src="https://github.com/SanchitDang/group_code/tree/master/WorkingDemo/signUp.png" width="200" height="400" />
+<img src="https://raw.githubusercontent.com/SanchitDang/group_code/master/WorkingDemo/signUp.png" width="200" height="400" />
 \
 Login
 \
-<img src="https://raw.githubusercontent.com/SanchitDang/group_code/tree/master/WorkingDemo/login.png" width="200" height="400" />
+<img src="https://raw.githubusercontent.com/SanchitDang/group_code/master/WorkingDemo/login.png" width="200" height="400" />
 \
 DashBoard
 \
-<img src="https://raw.githubusercontent.com/SanchitDang/group_code/tree/master/WorkingDemo/DashBoard.png" width="200" height="400" />
+<img src="https://raw.githubusercontent.com/SanchitDang/group_code/master/WorkingDemo/DashBoard.png" width="200" height="400" />
 \
 Profile Section
 \
-<img src="https://raw.githubusercontent.com/SanchitDang/group_code/tree/master/WorkingDemo/profile.png" width="200" height="400" />
+<img src="https://raw.githubusercontent.com/SanchitDang/group_code/master/WorkingDemo/profile.png" width="200" height="400" />
 \
 Code Editor
 \
@@ -37,32 +37,32 @@ Code Editor
 \
 Groups
 \
-<img src="https://raw.githubusercontent.com/SanchitDang/group_code/tree/master/WorkingDemo/Question.png" width="200" height="400" />
+<img src="https://raw.githubusercontent.com/SanchitDang/group_code/master/WorkingDemo/Question.png" width="200" height="400" />
 \
 Group Info
 \
-<img src="https://raw.githubusercontent.com/SanchitDang/group_code/tree/master/WorkingDemo/GroupInfo.png" width="200" height="400" />
+<img src="https://raw.githubusercontent.com/SanchitDang/group_code/master/WorkingDemo/GroupInfo.png" width="200" height="400" />
 \
 Group Chat
 \
-<img src="https://raw.githubusercontent.com/SanchitDang/group_code/tree/master/WorkingDemo/groupChat.png" width="200" height="400" />
+<img src="https://raw.githubusercontent.com/SanchitDang/group_code/master/WorkingDemo/groupChat.png" width="200" height="400" />
 \
 
 
 ## Backend
 Users
 \
-<img src="https://raw.githubusercontent.com/SanchitDang/group_code/tree/master/WorkingDemo/usersDB.png" width="800" height="400" />
+<img src="https://raw.githubusercontent.com/SanchitDang/group_code/master/WorkingDemo/usersDB.png" width="800" height="400" />
 \
 Groups
 \
-<img src="https://raw.githubusercontent.com/SanchitDang/group_code/tree/master/WorkingDemo/groupsDB.png" width="800" height="400" />
+<img src="https://raw.githubusercontent.com/SanchitDang/group_code/master/WorkingDemo/groupsDB.png" width="800" height="400" />
 \
 Messages
 \
-<img src="https://raw.githubusercontent.com/SanchitDang/group_code/tree/master/WorkingDemo/messages.png" width="800" height="400" />
+<img src="https://raw.githubusercontent.com/SanchitDang/group_code/master/WorkingDemo/messages.png" width="800" height="400" />
 \
 Groups
 \
-<img src="https://raw.githubusercontent.com/SanchitDang/group_code/tree/master/WorkingDemo/groupsDB.png" width="800" height="400" />
+<img src="https://raw.githubusercontent.com/SanchitDang/group_code/master/WorkingDemo/groupsDB.png" width="800" height="400" />
 
