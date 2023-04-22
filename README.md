@@ -17,7 +17,7 @@ The app allows users to create and join groups, share code snippets, and chat wi
 ## Screenshots
 Sign Up
 \
-<img src="https://raw.githubusercontent.com/SanchitDang/group_code/tree/master/WorkingDemo/signUp.png" width="200" height="400" />
+<img src="https://github.com/SanchitDang/group_code/tree/master/WorkingDemo/signUp.png" width="200" height="400" />
 \
 Login
 \
