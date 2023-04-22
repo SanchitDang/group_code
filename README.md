@@ -17,55 +17,52 @@ The app allows users to create and join groups, share code snippets, and chat wi
 ## Screenshots
 Sign Up
 \
-<img src="https://raw.githubusercontent.com/SanchitDang/CodeQuizChallenge/master/app/WorkingDemo/SignUp.png" width="200" height="400" />
+<img src="https://raw.githubusercontent.com/SanchitDang/group_code/master/WorkingDemo/signUp.png" width="200" height="400" />
 \
 Login
 \
-<img src="https://raw.githubusercontent.com/SanchitDang/CodeQuizChallenge/master/app/WorkingDemo/Login.png" width="200" height="400" />
+<img src="https://raw.githubusercontent.com/SanchitDang/group_code/master/WorkingDemo/login.png" width="200" height="400" />
 \
 DashBoard
 \
-<img src="https://raw.githubusercontent.com/SanchitDang/CodeQuizChallenge/master/app/WorkingDemo/DashBoard.png" width="200" height="400" />
+<img src="https://raw.githubusercontent.com/SanchitDang/group_code/master/WorkingDemo/DashBoard.png" width="200" height="400" />
 \
-Profile Section User x
+Profile Section
 \
-<img src="https://raw.githubusercontent.com/SanchitDang/CodeQuizChallenge/master/app/WorkingDemo/ProfileSection1UserX.png" width="200" height="400" />
+<img src="https://raw.githubusercontent.com/SanchitDang/group_code/master/WorkingDemo/profile.png" width="200" height="400" />
 \
-Profile Section User y
+Code Editor
 \
-<img src="https://raw.githubusercontent.com/SanchitDang/CodeQuizChallenge/master/app/WorkingDemo/ProfileSection1UserY.png" width="200" height="400" />
+<img src="https://raw.githubusercontent.com/SanchitDang/group_code/tree/master/WorkingDemo/codeEditor.png" width="200" height="400" />
 \
-Question
+Groups
 \
-<img src="https://raw.githubusercontent.com/SanchitDang/CodeQuizChallenge/master/app/WorkingDemo/Question.png" width="200" height="400" />
+<img src="https://raw.githubusercontent.com/SanchitDang/group_code/master/WorkingDemo/Question.png" width="200" height="400" />
 \
-Correct Answer
+Group Info
 \
-<img src="https://raw.githubusercontent.com/SanchitDang/CodeQuizChallenge/master/app/WorkingDemo/CorrectAns.png" width="200" height="400" />
+<img src="https://raw.githubusercontent.com/SanchitDang/group_code/master/WorkingDemo/GroupInfo.png" width="200" height="400" />
 \
-Wrong Answer
+Group Chat
 \
-<img src="https://raw.githubusercontent.com/SanchitDang/CodeQuizChallenge/master/app/WorkingDemo/WrongAns.png" width="200" height="400" />
+<img src="https://raw.githubusercontent.com/SanchitDang/group_code/master/WorkingDemo/groupChat.png" width="200" height="400" />
 \
-Time Up
-\
-<img src="https://raw.githubusercontent.com/SanchitDang/CodeQuizChallenge/master/app/WorkingDemo/TimeUp.png" width="200" height="400" />
-\
-Final Score
-\
-<img src="https://raw.githubusercontent.com/SanchitDang/CodeQuizChallenge/master/app/WorkingDemo/FinalScore.png" width="200" height="400" />
 
 
 ## Backend
-Authenticated Users
+Users
 \
-<img src="https://raw.githubusercontent.com/SanchitDang/CodeQuizChallenge/master/app/WorkingDemo/AllUsers.png" width="800" height="400" />
+<img src="https://raw.githubusercontent.com/SanchitDang/group_code/master/WorkingDemo/usersDB.png" width="800" height="400" />
 \
-Data of User x
+Groups
 \
-<img src="https://raw.githubusercontent.com/SanchitDang/CodeQuizChallenge/master/app/WorkingDemo/DataUserX.png" width="800" height="400" />
+<img src="https://raw.githubusercontent.com/SanchitDang/group_code/master/WorkingDemo/groupsDB.png" width="800" height="400" />
 \
-Data of User Y
+Messages
 \
-<img src="https://raw.githubusercontent.com/SanchitDang/CodeQuizChallenge/master/app/WorkingDemo/DataUserY.png" width="800" height="400" />
+<img src="https://raw.githubusercontent.com/SanchitDang/group_code/master/WorkingDemo/messages.png" width="800" height="400" />
+\
+Groups
+\
+<img src="https://raw.githubusercontent.com/SanchitDang/group_code/master/WorkingDemo/groupsDB.png" width="800" height="400" />
 
