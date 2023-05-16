@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:firebase_storage/firebase_storage.dart';
+import 'package:group_code/MessageModel.dart';
 import 'package:group_code/pages/code_editor_screen.dart';
 import 'package:group_code/pages/group_info.dart';
 import 'package:group_code/service/database_service.dart';
@@ -9,9 +10,12 @@ import 'package:group_code/widgets/widgets.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:socket_io_client/socket_io_client.dart';
 import 'package:uuid/uuid.dart';
 import '../widgets/code_tile.dart';
 import '../widgets/image_tile.dart';
+import 'package:socket_io_client/socket_io_client.dart' as IO;
+import 'package:uuid/uuid.dart';
 
 class ChatPage extends StatefulWidget {
   final String groupId;
@@ -133,8 +137,58 @@ class _ChatPageState extends State<ChatPage> {
 
   @override
   void initState() {
-    getChatAndAdmin();
+
     super.initState();
+    connectServer();
+   getChatAndAdmin();
+
+  }
+
+  List<MessageModel> chatsList =[];
+
+  String ip ='http://192.168.1.31:3000';
+
+  late Socket socket;
+  void connectServer() {
+    socket = io(ip,
+        OptionBuilder()
+            .setTransports(['websocket']) // for Flutter or Dart VM
+            .disableAutoConnect()  // disable auto-connection
+            .setExtraHeaders({'foo': 'bar'}) // optional
+            .build()
+    );
+    socket.connect();
+    socket.onConnect((data) {
+          print('connected with backend');
+          socket.on("sendMsgFromServer", (msg) {
+            //print(msg);
+
+          setState(() {
+            chatsList.add(MessageModel(message: msg['message'], sender: msg['sender'], type: msg['type'], time: msg['time']));
+            print(chatsList);
+
+          });
+          });
+    });
+
+  }
+
+  void sendMsgServer(String msg, String type){
+   MessageModel sentMsg = MessageModel(message: messageController.text, sender: widget.userName, type: type, time: (DateTime.now().millisecondsSinceEpoch).toString());
+
+    socket.emit("sendMsg",
+        {
+        'message': messageController.text,
+        'sender': widget.userName,
+        'type' : type,
+        'time': (DateTime.now().millisecondsSinceEpoch).toString()
+         }
+    );
+    setState(() {
+      chatsList.add(sentMsg);
+      print(chatsList);
+    });
+
   }
 
   getChatAndAdmin() {
@@ -175,7 +229,8 @@ class _ChatPageState extends State<ChatPage> {
       body: Stack(
         children: <Widget>[
           // chat messages here
-          chatMessages(),
+          // chatMessages(),
+          chatMessagesServer(),
 
           // message writing area
           Container(
@@ -212,7 +267,16 @@ class _ChatPageState extends State<ChatPage> {
                 ),
                 GestureDetector(
                   onTap: () {
-                    sendMessage();
+
+                    if (messageController.text.isNotEmpty) {
+                      //sendMessage();
+
+                      sendMsgServer(messageController.text, 'text');
+                      messageController.clear();
+                      setState(() {
+                      });
+
+                    }
                   },
                   child: Container(
                     height: 40,
@@ -278,6 +342,23 @@ class _ChatPageState extends State<ChatPage> {
         },
       ),
     );
+  }
+  chatMessagesServer() {
+
+    return chatsList.length!=0?
+         ListView.builder(
+      itemCount: chatsList.length,
+      itemBuilder: (context, index) {
+
+          return MessageTile(
+              message: chatsList[index].message,
+              sender: chatsList[index].sender,
+              sentByMe: widget.userName ==
+                  chatsList[index].sender);
+
+      },
+    ) : Container();
+
   }
 
   sendMessage() {
