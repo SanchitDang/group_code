@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:group_code/MessageModel.dart';
 import 'package:group_code/pages/code_editor_screen.dart';
@@ -33,6 +34,7 @@ class ChatPage extends StatefulWidget {
 }
 
 class _ChatPageState extends State<ChatPage> {
+  String userId = FirebaseAuth.instance.currentUser!.uid;
   Stream<QuerySnapshot>? chats;
   TextEditingController messageController = TextEditingController();
   String admin = "";
@@ -135,74 +137,122 @@ class _ChatPageState extends State<ChatPage> {
     );
   }
 
-  @override
-  void initState() {
-
-    super.initState();
-    connectServer();
-   getChatAndAdmin();
-
-  }
-
-  List<MessageModel> chatsList =[];
-
-  String ip ='http://192.168.1.31:3000';
-
-  late Socket socket;
-  void connectServer() {
-    socket = io(ip,
-        OptionBuilder()
-            .setTransports(['websocket']) // for Flutter or Dart VM
-            .disableAutoConnect()  // disable auto-connection
-            .setExtraHeaders({'foo': 'bar'}) // optional
-            .build()
-    );
-    socket.connect();
-    socket.onConnect((data) {
-          print('connected with backend');
-          socket.on("sendMsgFromServer", (msg) {
-            //print(msg);
-
-          setState(() {
-            chatsList.add(MessageModel(message: msg['message'], sender: msg['sender'], type: msg['type'], time: msg['time']));
-            print(chatsList);
-
-          });
-          });
-    });
-
-  }
-
-  void sendMsgServer(String msg, String type){
-   MessageModel sentMsg = MessageModel(message: messageController.text, sender: widget.userName, type: type, time: (DateTime.now().millisecondsSinceEpoch).toString());
-
-    socket.emit("sendMsg",
-        {
-        'message': messageController.text,
-        'sender': widget.userName,
-        'type' : type,
-        'time': (DateTime.now().millisecondsSinceEpoch).toString()
-         }
-    );
-    setState(() {
-      chatsList.add(sentMsg);
-      print(chatsList);
-    });
-
-  }
-
   getChatAndAdmin() {
     DatabaseService().getChats(widget.groupId).then((val) {
       setState(() {
         chats = val;
       });
     });
+
     DatabaseService().getGroupAdmin(widget.groupId).then((val) {
       setState(() {
         admin = val;
       });
     });
   }
+
+  @override
+  void initState() {
+    super.initState();
+    connectServer();
+    // getChatAndAdmin();
+  }
+
+  List<MessageModel> chatsList = [];
+  late Socket socket;
+
+  // void connectServer() {
+  //   String ip = 'http://192.168.1.31:3000';
+  //   socket = io(
+  //       ip,
+  //       OptionBuilder()
+  //           .setTransports(['websocket']) // for Flutter or Dart VM
+  //           .disableAutoConnect() // disable auto-connection
+  //           .setExtraHeaders({'foo': 'bar'}) // optional
+  //           .build());
+  //   socket.connect();
+  //   socket.onConnect((data) {
+  //     print('connected with backend...');
+  //     socket.on("sendMsgFromServer", (msg) {
+  //       //print(msg);
+  //
+  //       socket.emit('sendGrpId', {'grpId': widget.groupId});
+  //
+  //       if (msg['userId'] != userId) {
+  //         setState(() {
+  //           chatsList.add(MessageModel(
+  //               message: msg['message'],
+  //               sender: msg['sender'],
+  //               type: msg['type'],
+  //               time: msg['time']));
+  //           //print(chatsList);
+  //         });
+  //       }
+  //     });
+  //   });
+  // }
+
+  void connectServer() {
+    String ip = 'http://192.168.1.31:3000';
+    socket = io(
+      ip,
+      OptionBuilder()
+          .setTransports(['websocket'])
+          .disableAutoConnect()
+          .setExtraHeaders({'foo': 'bar'})
+          .build(),
+    );
+
+    socket.connect();
+
+    socket.emit('joinGroup', widget.groupId);
+
+    socket.onConnect((_) {
+      print('Connected with backend...');
+
+      socket.on("sendMsgFromServer", (msg)
+      {
+        if (msg['groupName'] == widget.groupId) {
+        if (msg['userId'] != userId) {
+          setState(() {
+            chatsList.add(MessageModel(
+              message: msg['message'],
+              sender: msg['sender'],
+              type: msg['type'],
+              time: msg['time'],
+            ));
+          });
+        }
+      }
+      });
+
+
+    });
+  }
+
+
+  void sendMsgServer(String grpId, String msg, String type) {
+    MessageModel sentMsg = MessageModel(
+      message: messageController.text,
+      sender: widget.userName,
+      type: type,
+      time: DateTime.now().millisecondsSinceEpoch.toString(),
+    );
+
+    socket.emit("sendMsg", {
+      'message': messageController.text,
+      'sender': widget.userName,
+      'type': type,
+      'time': DateTime.now().millisecondsSinceEpoch.toString(),
+      'userId': userId,
+      'groupName': grpId, // Change 'grpId' to 'groupName'
+    });
+
+    setState(() {
+      chatsList.add(sentMsg);
+    });
+  }
+
 
   @override
   Widget build(BuildContext context) {
@@ -229,8 +279,8 @@ class _ChatPageState extends State<ChatPage> {
       body: Stack(
         children: <Widget>[
           // chat messages here
-          // chatMessages(),
-          chatMessagesServer(),
+           chatMessages(),
+         // chatMessagesServer(),
 
           // message writing area
           Container(
@@ -243,15 +293,18 @@ class _ChatPageState extends State<ChatPage> {
               color: Color.fromRGBO(255, 255, 255, 1),
               child: Row(children: [
                 SizedBox(
-                  width:50,
-                  height:50,
+                  width: 50,
+                  height: 50,
                   child: IconButton(
-                      icon: Icon(Icons.add, color: Theme.of(context).primaryColor),
+                      icon: Icon(Icons.add,
+                          color: Theme.of(context).primaryColor),
                       onPressed: () {
                         _showOptions(context);
                       }),
                 ),
-                const SizedBox(width: 10,),
+                const SizedBox(
+                  width: 10,
+                ),
                 Expanded(
                     child: TextFormField(
                   controller: messageController,
@@ -267,15 +320,12 @@ class _ChatPageState extends State<ChatPage> {
                 ),
                 GestureDetector(
                   onTap: () {
-
                     if (messageController.text.isNotEmpty) {
-                      //sendMessage();
-
-                      sendMsgServer(messageController.text, 'text');
+                      sendMessage();
+                      // sendMsgServer(
+                      //     widget.groupId, messageController.text, 'text');
                       messageController.clear();
-                      setState(() {
-                      });
-
+                      setState(() {});
                     }
                   },
                   child: Container(
@@ -343,38 +393,30 @@ class _ChatPageState extends State<ChatPage> {
       ),
     );
   }
+
   chatMessagesServer() {
-
-    return chatsList.length!=0?
-         ListView.builder(
-      itemCount: chatsList.length,
-      itemBuilder: (context, index) {
-
-          return MessageTile(
-              message: chatsList[index].message,
-              sender: chatsList[index].sender,
-              sentByMe: widget.userName ==
-                  chatsList[index].sender);
-
-      },
-    ) : Container();
-
+    return chatsList.length != 0
+        ? ListView.builder(
+            itemCount: chatsList.length,
+            itemBuilder: (context, index) {
+              return MessageTile(
+                  message: chatsList[index].message,
+                  sender: chatsList[index].sender,
+                  sentByMe: widget.userName == chatsList[index].sender);
+            },
+          )
+        : Container();
   }
 
   sendMessage() {
-    if (messageController.text.isNotEmpty) {
-      Map<String, dynamic> chatMessageMap = {
-        "message": messageController.text,
-        "sender": widget.userName,
-        "type": "text",
-        "time": DateTime.now().millisecondsSinceEpoch,
-      };
+    Map<String, dynamic> chatMessageMap = {
+      "message": messageController.text,
+      "sender": widget.userName,
+      "type": "text",
+      "time": DateTime.now().millisecondsSinceEpoch,
+    };
 
-      DatabaseService().sendMessage(widget.groupId, chatMessageMap);
-      setState(() {
-        messageController.clear();
-      });
-    }
+    DatabaseService().sendMessage(widget.groupId, chatMessageMap);
   }
 
   sendCode() {
